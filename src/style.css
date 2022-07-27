@@ -62,3 +62,6 @@ body{
 .lato{
   font-family: Lato, Helvetica, Arial, sans-serif;
 }
+.text-muted{
+  color: #9FA2B4;
+}
