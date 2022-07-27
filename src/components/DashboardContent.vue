@@ -3,8 +3,8 @@ export default {
     data() {
         return {
             dashboardData: [],
-            xray: [],
-            ultrasoundScan: []
+            xrayData: [],
+            ultrasoundScanData: []
         }
     },
     methods: {
@@ -23,8 +23,8 @@ export default {
                 .then(response => response.json())
                 .then(result => {
                     this.dashboardData = result.data;
-                    this.xray = result.data[0];
-                    this.xray = result.data[1];
+                    this.xrayData = result.data[0];
+                    this.ultrasoundScanData = result.data[1];
                 })
                 .catch(error => console.log('error', error));
         }
@@ -77,27 +77,49 @@ export default {
             <div class="main-content-box">
 
                 <div class="box-data">
-                    <h3 class="box-data-title avenir text-primary">X-Ray</h3>
-                    <div class="box-data-options">
+                    <div class="xray-section">
+                        <h3 class="box-data-title avenir text-primary">X-Ray</h3>
+                        <div class="box-data-options">
 
-                        <div class="grid">
-                            <div class="grid-items">
-                                <div class="checkbox-with-label">
-                                    <input type="checkbox" id="checkbox1" name="checkbox1" />
-                                    <label for="checkbox1">
-                                        Chest
-                                    </label>
+                            <div class="grid">
+                                <div class="grid-items" v-for="xray in xrayData.investigations" :key="xray.id">
+                                    <div class="checkbox-with-label">
+                                        <input type="checkbox" id="checkbox1" name="checkbox1" />
+                                        <label for="checkbox1">
+                                            {{ xray.title }}
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="box-data-divider">
-                            <div class="box-data-divider-line"></div>
-                        </div>
-
                     </div>
 
 
+                    <div class="box-data-divider">
+                        <div class="box-data-divider-line"></div>
+                    </div>
+
+                    <div class="ultrasound-section">
+                        <h3 class="box-data-title avenir text-primary">Ultrasound Scan</h3>
+                        <div class="box-data-options">
+
+                            <div class="grid">
+                                <div class="grid-items" v-for="ultrasound in ultrasoundScanData.investigations"
+                                    :key="ultrasound.id">
+                                    <div class="checkbox-with-label">
+                                        <input type="checkbox" id="checkbox1" name="checkbox1" />
+                                        <label for="checkbox1">
+                                            {{ ultrasound.title }}
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="box-data-divider">
+                        <div class="box-data-divider-line"></div>
+                    </div>
 
                 </div>
 
@@ -109,6 +131,7 @@ export default {
 <style lang="scss" scoped>
 .page {
     background-color: #F5F5FB;
+    min-height: 100vh;
 }
 
 .profile-options {
@@ -176,7 +199,7 @@ export default {
 
     .box-data {
         margin-top: 20px;
-        margin-left: 94px;
+        margin-left: 30px;
         margin-right: 20px;
 
         .box-data-title {
