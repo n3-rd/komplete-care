@@ -1,5 +1,44 @@
-<template>
+<script>
+export default {
+    data() {
+        return {
+            dashboardData: [],
+            xray: [],
+            ultrasoundScan: []
+        }
+    },
+    methods: {
+        fetchData() {
+            var myHeaders = new Headers();
+            myHeaders.append("Accept", "application/json");
+            myHeaders.append("Authorization", `Bearer ${import.meta.env.VITE_AUTH}`);
 
+            var requestOptions = {
+                method: 'GET',
+                headers: myHeaders,
+                redirect: 'follow'
+            };
+
+            fetch("https://testdrive.kompletecare.com/api/investigations", requestOptions)
+                .then(response => response.json())
+                .then(result => {
+                    this.dashboardData = result.data;
+                    this.xray = result.data[0];
+                    this.xray = result.data[1];
+                })
+                .catch(error => console.log('error', error));
+        }
+    },
+    mounted() {
+        this.fetchData();
+        console.log(this.dashboardData)
+    }
+}
+
+
+</script>
+
+<template>
     <div class="page">
         <div class="profile-options flex flex-row flex-end text-primary avenir">
             <div class="profile-options__item opacity-7">Take a tour</div>
@@ -35,18 +74,43 @@
             </div>
 
 
-    <div class="main-content-box">
-        
-    </div>
+            <div class="main-content-box">
 
+                <div class="box-data">
+                    <h3 class="box-data-title avenir text-primary">X-Ray</h3>
+                    <div class="box-data-options">
+
+                        <div class="grid">
+                            <div class="grid-items">
+                                <div class="checkbox-with-label">
+                                    <input type="checkbox" id="checkbox1" name="checkbox1" />
+                                    <label for="checkbox1">
+                                        Chest
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="box-data-divider">
+                            <div class="box-data-divider-line"></div>
+                        </div>
+
+                    </div>
+
+
+
+                </div>
+
+            </div>
         </div>
     </div>
 </template>
 
 <style lang="scss" scoped>
-.page{
+.page {
     background-color: #F5F5FB;
 }
+
 .profile-options {
     display: flex;
     flex-direction: row;
@@ -81,6 +145,7 @@
     margin-top: 20px;
     margin-left: 20px;
     margin-right: 20px;
+
     .main-content-headers {
         margin-top: 20px;
         margin-left: 20px;
@@ -100,9 +165,61 @@
     }
 }
 
-.main-content-box{
+.main-content-box {
     margin-top: 20px;
     margin-left: 20px;
     margin-right: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+
+    .box-data {
+        margin-top: 20px;
+        margin-left: 94px;
+        margin-right: 20px;
+
+        .box-data-title {
+            font-weight: 900;
+            font-size: 25px;
+            line-height: 18px;
+        }
+
+        .box-data-options {
+            color: #000;
+            margin-top: 25px;
+
+            input[type="checkbox"]:hover {
+                cursor: pointer;
+            }
+
+
+            label {
+                font-weight: 700;
+                font-size: 14px;
+                line-height: 17px;
+                font-family: Lato, Helvetica, Arial, sans-serif;
+            }
+
+            .grid {
+                // grid with 4 rows
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                grid-gap: 10px;
+
+            }
+        }
+
+        .box-data-divider {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 1px;
+            background-color: #E0E0E0;
+        }
+    }
+
 }
 </style>
