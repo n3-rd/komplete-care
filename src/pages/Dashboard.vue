@@ -28,15 +28,15 @@ import DashboardContent from '../components/DashboardContent.vue';
     align-items: center;
     justify-content: center;
     height: 100vh;
+    overflow: hidden;
 
     .sidebar {
         width: 350px;
         height: 100%;
         border-right: 1px solid #e5e5e5;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
+        margin-top: 150px;
+        margin-bottom: 130px;
+        overflow-y: scroll;
     }
 
     .content {
@@ -44,6 +44,8 @@ import DashboardContent from '../components/DashboardContent.vue';
         height: 100%;
         display: flex;
         flex-direction: column;
+        overflow-y: scroll;
+
     }
 }
 </style>

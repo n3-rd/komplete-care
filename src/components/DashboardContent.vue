@@ -121,6 +121,8 @@ export default {
                         <div class="box-data-divider-line"></div>
                     </div>
 
+                   
+
                 </div>
 
             </div>
@@ -225,7 +227,6 @@ export default {
             }
 
             .grid {
-                // grid with 4 rows
                 display: grid;
                 grid-template-columns: repeat(4, 1fr);
                 grid-gap: 10px;

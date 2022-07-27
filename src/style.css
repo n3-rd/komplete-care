@@ -62,6 +62,12 @@ body{
 .lato{
   font-family: Lato, Helvetica, Arial, sans-serif;
 }
+.sans{
+  font-family: 'Product Sans', sans-serif;
+}
 .text-muted{
   color: #9FA2B4;
+}
+.text-white{
+  color: #FFFFFF!important;
 }
