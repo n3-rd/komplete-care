@@ -47,3 +47,18 @@ body{
 .flex-center{
   justify-content: center;
 }
+.items-center{
+  align-items: center;
+}
+.items-start{
+  align-items: flex-start;
+}
+.items-end{
+  align-items: flex-end;
+}
+.avenir{
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+}
+.lato{
+  font-family: Lato, Helvetica, Arial, sans-serif;
+}
