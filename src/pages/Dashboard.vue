@@ -1,23 +1,18 @@
 <script setup>
-import DashboardSidebarVue from '../components/DashboardSidebar.vue';
-import DashboardContent from '../components/DashboardContent.vue';
+import DashboardSidebarVue from "../components/DashboardSidebar.vue";
+import DashboardContent from "../components/DashboardContent.vue";
 </script>
 
 <template>
     <div>
-
         <div class="dashboard">
-
             <div class="sidebar">
                 <DashboardSidebarVue></DashboardSidebarVue>
             </div>
             <div class="content">
                 <DashboardContent></DashboardContent>
-
             </div>
-
         </div>
-
     </div>
 </template>
 
@@ -45,7 +40,6 @@ import DashboardContent from '../components/DashboardContent.vue';
         display: flex;
         flex-direction: column;
         overflow-y: scroll;
-
     }
 }
 </style>

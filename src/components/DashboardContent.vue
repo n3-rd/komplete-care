@@ -1,12 +1,12 @@
 <script>
-import alertify from 'alertifyjs';
+import alertify from "alertifyjs";
 export default {
     data() {
         return {
             dashboardData: [],
             xrayData: [],
             ultrasoundScanData: [],
-        }
+        };
     },
     methods: {
         fetchData() {
@@ -16,27 +16,32 @@ export default {
 
             var graphql = JSON.stringify({
                 query: "{investigations { id title type {id title } } }",
-                variables: {}
-            })
+                variables: {},
+            });
             var requestOptions = {
-                method: 'POST',
+                method: "POST",
                 headers: myHeaders,
                 body: graphql,
-                redirect: 'follow'
+                redirect: "follow",
             };
 
             fetch("https://testdrive.kompletecare.com/graphql", requestOptions)
-                .then(response => response.json())
-                .then(result => {
-                    console.log(result)
+                .then((response) => response.json())
+                .then((result) => {
                     this.dashboardData = result.data.investigations;
-                    this.xrayData = result.data.investigations.filter(investigation => investigation.type.id === "1");
-                    this.ultrasoundScanData = result.data.investigations.filter(investigation => investigation.type.id === "2");
+                    this.xrayData = result.data.investigations.filter(
+                        (investigation) => investigation.type.id === "1"
+                    );
+                    this.ultrasoundScanData = result.data.investigations.filter(
+                        (investigation) => investigation.type.id === "2"
+                    );
                 })
-                .catch(error => console.log('error', error));
+                .catch((error) => alertify.error(error));
         },
         getCheckedBoxes(checkboxName) {
-            var checkboxes = document.querySelectorAll('input[name="checkbox"]:checked');
+            var checkboxes = document.querySelectorAll(
+                'input[name="checkbox"]:checked'
+            );
             var checkboxesArray = [];
             checkboxes.forEach(function (checkbox) {
                 checkboxesArray.push(parseInt(checkbox.id));
@@ -45,8 +50,6 @@ export default {
         },
         createRecord() {
             var checkedBoxes = this.getCheckedBoxes();
-            console.log(checkedBoxes);
-
             var myHeaders = new Headers();
             myHeaders.append("Content-Type", "application/json");
             myHeaders.append("Authorization", `Bearer ${import.meta.env.VITE_AUTH}`);
@@ -71,33 +74,28 @@ export default {
                         created_at
                     }
                 }`,
-            })
+            });
             var requestOptions = {
-                method: 'POST',
+                method: "POST",
                 headers: myHeaders,
                 body: graphql,
-                redirect: 'follow'
+                redirect: "follow",
             };
 
             fetch("https://testdrive.kompletecare.com/graphql", requestOptions)
-                .then(response => response.text())
-                .then(result => {
+                .then((response) => response.text())
+                .then((result) => {
                     alertify.success("Record created successfully");
-                    console.log(result)
                 })
-                .catch(error => {
+                .catch((error) => {
                     alertify.error("Error creating record");
-                    console.log('error', error)
                 });
-        }
+        },
     },
     mounted() {
         this.fetchData();
-        console.log(this.dashboardData);
-    }
-}
-
-
+    },
+};
 </script>
 
 <template>
@@ -113,7 +111,6 @@ export default {
                         d="M18.4424 7.53004L12.7061 11.9915C12.5535 12.1101 12.3658 12.1745 12.1725 12.1745C11.9792 12.1745 11.7914 12.1101 11.6389 11.9915L3.81369 5.90523C3.72175 5.8358 3.64452 5.74879 3.5865 5.64926C3.52848 5.54973 3.49082 5.43966 3.47571 5.32544C3.4606 5.21123 3.46833 5.09515 3.49847 4.98395C3.52861 4.87276 3.58054 4.76866 3.65126 4.6777C3.72198 4.58675 3.81006 4.51076 3.9104 4.45415C4.01074 4.39753 4.12133 4.36142 4.23575 4.34792C4.35016 4.33442 4.46612 4.34379 4.57688 4.37548C4.68765 4.40718 4.791 4.46058 4.88095 4.53257L12.1725 10.2036L17.2925 6.2215C16.7971 5.42005 16.5284 4.49924 16.5149 3.55713C16.5014 2.61502 16.7437 1.68689 17.2159 0.871582H3.04312C2.2363 0.872445 1.46277 1.19334 0.892263 1.76385C0.321754 2.33435 0.000863065 3.10788 0 3.9147V16.9567C0.000863065 17.7635 0.321754 18.537 0.892263 19.1075C1.46277 19.678 2.2363 19.9989 3.04312 19.9998H21.3019C22.1087 19.9989 22.8822 19.678 23.4527 19.1075C24.0232 18.537 24.3441 17.7635 24.345 16.9567V8.00064C23.4297 8.53081 22.3747 8.76975 21.3203 8.68568C20.2659 8.60162 19.2621 8.19854 18.4424 7.53004Z"
                         fill="#382F90" />
                 </svg>
-
             </div>
             <div class="profile-options__item opacity-7 flex">
                 <svg width="18" height="20" viewBox="0 0 18 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -124,7 +121,6 @@ export default {
                         d="M8.57873 19.9998C9.22384 19.9993 9.85677 19.8242 10.4104 19.493C10.964 19.1619 11.4177 18.6871 11.7234 18.119C11.7378 18.0918 11.7449 18.0613 11.744 18.0305C11.7432 17.9997 11.7343 17.9697 11.7184 17.9433C11.7025 17.9169 11.6801 17.8951 11.6532 17.88C11.6264 17.8648 11.5961 17.8569 11.5653 17.8569H5.59302C5.56218 17.8568 5.53184 17.8647 5.50495 17.8798C5.47807 17.8949 5.45555 17.9167 5.43959 17.9431C5.42363 17.9695 5.41478 17.9996 5.41389 18.0304C5.41301 18.0612 5.42012 18.0917 5.43454 18.119C5.74013 18.687 6.19375 19.1618 6.74731 19.4929C7.30086 19.824 7.9337 19.9992 8.57873 19.9998Z"
                         fill="#382F90" fill-opacity="0.6" />
                 </svg>
-
             </div>
             <div class="profile-options__item doctor-image__container">
                 <div class="doctor-image"></div>
@@ -139,14 +135,11 @@ export default {
                 </div>
             </div>
 
-
             <div class="main-content-box">
-
                 <div class="box-data">
                     <div class="xray-section">
                         <h3 class="box-data-title avenir text-primary">X-Ray</h3>
                         <div class="box-data-options">
-
                             <div class="grid">
                                 <div class="grid-items" v-for="xray in xrayData" :key="xray.id">
                                     <div class="checkbox-with-label">
@@ -160,7 +153,6 @@ export default {
                         </div>
                     </div>
 
-
                     <div class="box-data-divider">
                         <div class="box-data-divider-line"></div>
                     </div>
@@ -168,7 +160,6 @@ export default {
                     <div class="ultrasound-section">
                         <h3 class="box-data-title avenir text-primary">Ultrasound Scan</h3>
                         <div class="box-data-options">
-
                             <div class="grid">
                                 <div class="grid-items" v-for="ultrasound in ultrasoundScanData" :key="ultrasound.id">
                                     <div class="checkbox-with-label">
@@ -179,8 +170,6 @@ export default {
                                     </div>
                                 </div>
                             </div>
-
-
                         </div>
                     </div>
 
@@ -190,12 +179,13 @@ export default {
 
                     <div class="selectors lato">
                         <div class="selectors-grid">
-
                             <div class="selectors-grid__item">
                                 <div class="selector-header text-muted">CT Scan</div>
                                 <select name="ct-scan-select" class="select text-muted" id="ct-scan">
                                     <option value="">*Specify</option>
-                                    <option value="1">Scan needed in the left cerebral hemisphere</option>
+                                    <option value="1">
+                                        Scan needed in the left cerebral hemisphere
+                                    </option>
                                 </select>
                             </div>
 
@@ -209,16 +199,12 @@ export default {
                         </div>
                     </div>
 
-
                     <div class="send-button__container flex">
-                        <div class="send-button bg-primary" @click="createRecord()">Save and Send</div>
-
+                        <div class="send-button bg-primary" @click="createRecord()">
+                            Save and Send
+                        </div>
                     </div>
-
-
-
                 </div>
-
             </div>
         </div>
     </div>
@@ -226,7 +212,7 @@ export default {
 
 <style lang="scss" scoped>
 .page {
-    background-color: #F5F5FB;
+    background-color: #f5f5fb;
     // min-height: 100vh;
 }
 
@@ -253,7 +239,7 @@ export default {
             height: 100%;
             border-radius: 50%;
             background-color: #fff;
-            background-image: url('doctor.png');
+            background-image: url("doctor.png");
             background-size: cover;
             background-position: center;
         }
@@ -310,7 +296,6 @@ export default {
                 cursor: pointer;
             }
 
-
             label {
                 font-weight: 700;
                 font-size: 14px;
@@ -322,7 +307,6 @@ export default {
                 display: grid;
                 grid-template-columns: repeat(4, 1fr);
                 grid-gap: 10px;
-
             }
         }
 
@@ -333,7 +317,7 @@ export default {
             align-items: center;
             justify-content: center;
             height: 1px;
-            background-color: #E0E0E0;
+            background-color: #e0e0e0;
         }
     }
 
@@ -360,7 +344,7 @@ export default {
     .select {
         width: 100%;
         height: 40px;
-        border: 1px solid #C4C4C4;
+        border: 1px solid #c4c4c4;
         border-radius: 5px;
         font-size: 14px;
         font-weight: 700;
@@ -386,8 +370,5 @@ export default {
             cursor: pointer;
         }
     }
-
-
-
 }
 </style>
