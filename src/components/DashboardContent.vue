@@ -10,23 +10,38 @@ export default {
     methods: {
         fetchData() {
             var myHeaders = new Headers();
-            myHeaders.append("Accept", "application/json");
+            myHeaders.append("Content-Type", "application/json");
             myHeaders.append("Authorization", `Bearer ${import.meta.env.VITE_AUTH}`);
 
+            var graphql = JSON.stringify({
+                query: "{investigations { id title type {id title } } }",
+                variables: {}
+            })
             var requestOptions = {
-                method: 'GET',
+                method: 'POST',
                 headers: myHeaders,
+                body: graphql,
                 redirect: 'follow'
             };
 
-            fetch("https://testdrive.kompletecare.com/api/investigations", requestOptions)
+            fetch("https://testdrive.kompletecare.com/graphql", requestOptions)
                 .then(response => response.json())
                 .then(result => {
-                    this.dashboardData = result.data;
-                    this.xrayData = result.data[0];
-                    this.ultrasoundScanData = result.data[1];
+                    console.log(result)
+                    this.dashboardData = result.data.investigations;
+                    this.xrayData = result.data.investigations.filter(investigation => investigation.type.id === "1");
+                    this.ultrasoundScanData = result.data.investigations.filter(investigation => investigation.type.id === "2");
                 })
                 .catch(error => console.log('error', error));
+        },
+        getCheckedBoxes(checkboxName) {
+            var checkboxes = document.querySelectorAll('input[name="checkbox"]:checked');
+            // console.log(checkboxes);
+            var checkboxesArray = [];
+            checkboxes.forEach(function (checkbox) {
+                checkboxesArray.push(checkbox.id);
+            });
+            console.log(checkboxesArray);
         }
     },
     mounted() {
@@ -43,22 +58,18 @@ export default {
         <div class="profile-options flex flex-row flex-end text-primary avenir">
             <div class="profile-options__item opacity-7">Take a tour</div>
             <div class="profile-options__item flex">
-                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true"
-                    role="img" class="iconify iconify--ic" width="1.2em" height="1.2em"
-                    preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24">
-                    <path fill="currentColor"
-                        d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-.4 4.25l-7.07 4.42c-.32.2-.74.2-1.06 0L4.4 8.25a.85.85 0 1 1 .9-1.44L12 11l6.7-4.19a.85.85 0 1 1 .9 1.44z">
-                    </path>
-                </svg>
+                <svg width="26" height="20" viewBox="0 0 26 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M25.2144 3.48288C25.2154 2.81285 25.0228 2.15681 24.6598 1.59363C24.2968 1.03046 23.7788 0.584135 23.1682 0.308325C22.5575 0.0325153 21.8802 -0.0610361 21.2177 0.0389205C20.5552 0.138877 19.9356 0.428086 19.4335 0.871771C19.1617 1.11155 18.9287 1.39202 18.7429 1.7032V1.70646C18.7135 1.75536 18.6858 1.80536 18.6586 1.85535L18.6456 1.88198C18.6228 1.92491 18.6016 1.96838 18.5809 2.0124C18.5744 2.02598 18.5684 2.03957 18.5625 2.05315C18.5445 2.09282 18.5271 2.13304 18.5108 2.17379C18.5038 2.19064 18.4972 2.20748 18.4907 2.22433C18.4761 2.26237 18.4619 2.30041 18.4483 2.33899L18.4288 2.39659C18.4168 2.43354 18.4054 2.47104 18.3945 2.50854C18.388 2.52973 18.382 2.55038 18.3766 2.57157C18.3663 2.60798 18.3576 2.64493 18.3489 2.68026C18.3435 2.70254 18.338 2.72482 18.3331 2.7471C18.3255 2.78405 18.3185 2.82154 18.3119 2.85578C18.3076 2.8786 18.3032 2.90142 18.2994 2.92425C18.2935 2.96229 18.2886 3.00087 18.2837 3.03945C18.281 3.06173 18.2777 3.08401 18.275 3.10684C18.2706 3.14868 18.2679 3.19052 18.2647 3.23291C18.2647 3.25247 18.2614 3.27203 18.2603 3.2916C18.2571 3.35355 18.2549 3.4155 18.2549 3.47853C18.2549 3.53287 18.2549 3.58721 18.2592 3.6383V3.67307C18.2621 3.72416 18.2659 3.77524 18.2706 3.82632L18.2739 3.8524C18.2788 3.89859 18.2842 3.94424 18.2913 3.98934C18.2913 3.99858 18.2913 4.00836 18.2951 4.0176C18.3027 4.06705 18.3119 4.11596 18.3217 4.16487C18.3217 4.17682 18.3266 4.18823 18.3288 4.20019C18.3386 4.24692 18.3494 4.29365 18.3614 4.33984V4.35017C18.3739 4.39853 18.3875 4.44581 18.4021 4.49309L18.4136 4.53004C18.4282 4.57623 18.4434 4.62133 18.4598 4.66644C18.463 4.67622 18.4668 4.686 18.4706 4.69578C18.4853 4.73436 18.5005 4.77295 18.5163 4.81099C18.5206 4.8224 18.525 4.83326 18.5299 4.84413C18.5483 4.88706 18.5673 4.92999 18.5875 4.97238L18.6054 5.00879C18.6244 5.04683 18.6434 5.08487 18.6635 5.12236C18.9472 5.64954 19.3615 6.09505 19.8667 6.41623C19.9993 6.50095 20.1376 6.5763 20.2807 6.64175L20.3019 6.65153C20.3983 6.695 20.4967 6.73413 20.597 6.76891L20.6486 6.7863L20.7301 6.81184C20.7546 6.81945 20.779 6.82597 20.804 6.83303L20.9084 6.8602L21.0024 6.88194L21.0649 6.89444L21.1643 6.91237L21.2154 6.92052C21.2643 6.92759 21.3138 6.93411 21.3632 6.93954L21.4051 6.94334C21.4447 6.9466 21.4849 6.94987 21.5252 6.95204L21.5719 6.95476C21.6262 6.95476 21.6773 6.9591 21.7306 6.9591C21.7936 6.9591 21.8555 6.9591 21.9175 6.95367L21.9762 6.94932C22.0186 6.94606 22.0604 6.94334 22.1023 6.939L22.1702 6.9303C22.2082 6.92541 22.2468 6.92052 22.2848 6.91454L22.3533 6.90205C22.3903 6.89552 22.4278 6.88846 22.462 6.88085L22.5288 6.86509C22.5658 6.8564 22.6027 6.8477 22.6375 6.83738C22.6587 6.83194 22.6794 6.82597 22.7006 6.81945C22.7381 6.80858 22.7756 6.79717 22.8125 6.78521L22.8701 6.76565C22.9087 6.75206 22.9467 6.73793 22.9848 6.72326L23.0353 6.70316C23.0761 6.68685 23.1163 6.66946 23.1559 6.65153L23.1967 6.63305C23.2407 6.61241 23.2842 6.59121 23.3271 6.56839L23.3537 6.55535C23.4037 6.52818 23.4537 6.501 23.5026 6.47112H23.5059C23.8196 6.28672 24.1026 6.05462 24.3449 5.78315C24.906 5.14836 25.2153 4.33011 25.2144 3.48288Z" fill="#FF0000"/>
+<path d="M18.4424 7.53004L12.7061 11.9915C12.5535 12.1101 12.3658 12.1745 12.1725 12.1745C11.9792 12.1745 11.7914 12.1101 11.6389 11.9915L3.81369 5.90523C3.72175 5.8358 3.64452 5.74879 3.5865 5.64926C3.52848 5.54973 3.49082 5.43966 3.47571 5.32544C3.4606 5.21123 3.46833 5.09515 3.49847 4.98395C3.52861 4.87276 3.58054 4.76866 3.65126 4.6777C3.72198 4.58675 3.81006 4.51076 3.9104 4.45415C4.01074 4.39753 4.12133 4.36142 4.23575 4.34792C4.35016 4.33442 4.46612 4.34379 4.57688 4.37548C4.68765 4.40718 4.791 4.46058 4.88095 4.53257L12.1725 10.2036L17.2925 6.2215C16.7971 5.42005 16.5284 4.49924 16.5149 3.55713C16.5014 2.61502 16.7437 1.68689 17.2159 0.871582H3.04312C2.2363 0.872445 1.46277 1.19334 0.892263 1.76385C0.321754 2.33435 0.000863065 3.10788 0 3.9147V16.9567C0.000863065 17.7635 0.321754 18.537 0.892263 19.1075C1.46277 19.678 2.2363 19.9989 3.04312 19.9998H21.3019C22.1087 19.9989 22.8822 19.678 23.4527 19.1075C24.0232 18.537 24.3441 17.7635 24.345 16.9567V8.00064C23.4297 8.53081 22.3747 8.76975 21.3203 8.68568C20.2659 8.60162 19.2621 8.19854 18.4424 7.53004Z" fill="#382F90"/>
+</svg>
+
             </div>
             <div class="profile-options__item opacity-7 flex">
-                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true"
-                    role="img" class="iconify iconify--ic" width="1.2em" height="1.2em"
-                    preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24">
-                    <path fill="currentColor"
-                        d="M12 22c1.1 0 2-.9 2-2h-4a2 2 0 0 0 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-1.29 1.29c-.63.63-.19 1.71.7 1.71h13.17c.89 0 1.34-1.08.71-1.71L18 16z">
-                    </path>
-                </svg>
+                <svg width="18" height="20" viewBox="0 0 18 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M16.7966 13.8085C16.7225 13.7192 16.6497 13.6299 16.5783 13.5437C15.5962 12.3558 15.002 11.6388 15.002 8.27589C15.002 6.53482 14.5855 5.10625 13.7645 4.03482C13.1591 3.2433 12.3408 2.64286 11.2622 2.19911C11.2484 2.19139 11.236 2.18126 11.2256 2.1692C10.8377 0.870089 9.77609 0 8.57877 0C7.38145 0 6.32029 0.870089 5.93234 2.16786C5.92199 2.17948 5.90977 2.18928 5.89618 2.19687C3.37922 3.23304 2.156 5.22098 2.156 8.27455C2.156 11.6388 1.5627 12.3558 0.579662 13.5424C0.508234 13.6286 0.435466 13.7161 0.361359 13.8071C0.16993 14.038 0.048645 14.3189 0.0118559 14.6165C-0.0249333 14.9141 0.0243139 15.2161 0.153769 15.4866C0.429216 16.067 1.01627 16.4272 1.68636 16.4272H15.4761C16.1431 16.4272 16.7261 16.0674 17.0024 15.4897C17.1324 15.2191 17.1822 14.917 17.1457 14.619C17.1092 14.321 16.9881 14.0397 16.7966 13.8085Z" fill="#382F90" fill-opacity="0.6"/>
+<path d="M8.57873 19.9998C9.22384 19.9993 9.85677 19.8242 10.4104 19.493C10.964 19.1619 11.4177 18.6871 11.7234 18.119C11.7378 18.0918 11.7449 18.0613 11.744 18.0305C11.7432 17.9997 11.7343 17.9697 11.7184 17.9433C11.7025 17.9169 11.6801 17.8951 11.6532 17.88C11.6264 17.8648 11.5961 17.8569 11.5653 17.8569H5.59302C5.56218 17.8568 5.53184 17.8647 5.50495 17.8798C5.47807 17.8949 5.45555 17.9167 5.43959 17.9431C5.42363 17.9695 5.41478 17.9996 5.41389 18.0304C5.41301 18.0612 5.42012 18.0917 5.43454 18.119C5.74013 18.687 6.19375 19.1618 6.74731 19.4929C7.30086 19.824 7.9337 19.9992 8.57873 19.9998Z" fill="#382F90" fill-opacity="0.6"/>
+</svg>
+
             </div>
             <div class="profile-options__item doctor-image__container">
                 <div class="doctor-image"></div>
@@ -82,10 +93,10 @@ export default {
                         <div class="box-data-options">
 
                             <div class="grid">
-                                <div class="grid-items" v-for="xray in xrayData.investigations" :key="xray.id">
+                                <div class="grid-items" v-for="xray in xrayData" :key="xray.id">
                                     <div class="checkbox-with-label">
-                                        <input type="checkbox" id="checkbox1" name="checkbox1" />
-                                        <label for="checkbox1">
+                                        <input type="checkbox" :id="xray.id" name="checkbox" />
+                                        <label for="checkbox1" @click="getCheckedBoxes()">
                                             {{ xray.title }}
                                         </label>
                                     </div>
@@ -104,16 +115,17 @@ export default {
                         <div class="box-data-options">
 
                             <div class="grid">
-                                <div class="grid-items" v-for="ultrasound in ultrasoundScanData.investigations"
-                                    :key="ultrasound.id">
+                                <div class="grid-items" v-for="ultrasound in ultrasoundScanData" :key="ultrasound.id">
                                     <div class="checkbox-with-label">
-                                        <input type="checkbox" id="checkbox1" name="checkbox1" />
+                                        <input type="checkbox" :id="ultrasound.id" name="checkbox" />
                                         <label for="checkbox1">
                                             {{ ultrasound.title }}
                                         </label>
                                     </div>
                                 </div>
                             </div>
+
+
                         </div>
                     </div>
 
@@ -121,7 +133,34 @@ export default {
                         <div class="box-data-divider-line"></div>
                     </div>
 
-                   
+                    <div class="selectors lato">
+                        <div class="selectors-grid">
+
+                            <div class="selectors-grid__item">
+                                <div class="selector-header text-muted">CT Scan</div>
+                                <select name="ct-scan-select" class="select text-muted" id="ct-scan">
+                                    <option value="">*Specify</option>
+                                    <option value="1">Scan needed in the left cerebral hemisphere</option>
+                                </select>
+                            </div>
+
+                            <div class="selectors-grid__item">
+                                <div class="selector-header text-muted">MRI</div>
+                                <select name="ct-scan-select" class="select text-muted" id="ct-scan">
+                                    <option value="">*Specify</option>
+                                    <option value="1">Full body MRI</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+<div class="send-button__container flex">
+                    <div class="send-button bg-primary">Save and Send</div>
+
+</div>
+
+
 
                 </div>
 
@@ -133,7 +172,7 @@ export default {
 <style lang="scss" scoped>
 .page {
     background-color: #F5F5FB;
-    min-height: 100vh;
+    // min-height: 100vh;
 }
 
 .profile-options {
@@ -191,9 +230,7 @@ export default {
 }
 
 .main-content-box {
-    margin-top: 20px;
-    margin-left: 20px;
-    margin-right: 20px;
+margin: 20px;
     background-color: #fff;
     border-radius: 5px;
     padding: 20px;
@@ -244,6 +281,57 @@ export default {
             background-color: #E0E0E0;
         }
     }
+
+    .selectors {
+        margin-top: 20px;
+        margin-right: 20px;
+
+        .selectors-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-gap: 10px;
+
+            .selectors-grid__item {
+                .selector-header {
+                    font-style: normal;
+                    font-weight: 700;
+                    font-size: 14px;
+                    line-height: 17px;
+                }
+            }
+        }
+    }
+
+    .select {
+        width: 100%;
+        height: 40px;
+        border: 1px solid #C4C4C4;
+        border-radius: 5px;
+        font-size: 14px;
+        font-weight: 700;
+        font-family: Lato, Helvetica, Arial, sans-serif;
+        color: #000;
+        padding-left: 10px;
+        margin-top: 10px;
+    }
+
+    .send-button__container{
+        margin-top: 20px;
+        margin-left: 20px;
+        margin-right: 20px;
+        align-items: center;
+        justify-content: end;
+            .send-button{
+    width: 159px;
+    padding: 10px 15px;
+    text-align: center;
+    border-radius: 7px;
+    color: #fff;
+    cursor: pointer;
+    }
+    }
+
+
 
 }
 </style>
