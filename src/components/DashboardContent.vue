@@ -239,7 +239,7 @@ export default {
             height: 100%;
             border-radius: 50%;
             background-color: #fff;
-            background-image: url("doctor.png");
+            background-image: url("/doctor.png");
             background-size: cover;
             background-position: center;
         }
