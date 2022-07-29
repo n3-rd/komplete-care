@@ -41,5 +41,20 @@ import DashboardContent from "../components/DashboardContent.vue";
         flex-direction: column;
         overflow-y: scroll;
     }
+
+    // mobile
+    @media (max-width: 768px) {
+        .sidebar {
+            width: 20%;
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+        .content {
+            width: 100%;
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+    }
 }
+
 </style>

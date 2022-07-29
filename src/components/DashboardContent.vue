@@ -317,6 +317,9 @@ export default {
                 display: grid;
                 grid-template-columns: repeat(4, 1fr);
                 grid-gap: 10px;
+    // @media (max-width: 768px) {
+    //     display: block;
+    // }
             }
         }
 
@@ -381,4 +384,5 @@ export default {
         }
     }
 }
+
 </style>

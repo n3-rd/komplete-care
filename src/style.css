@@ -75,3 +75,25 @@ body{
 .text-white{
   color: #FFFFFF!important;
 }
+
+
+    @media (max-width: 768px) {
+      .profile-options-item{
+        margin-left: auto;
+      }
+      .grid-items{
+        margin: 4px 0;
+      }
+      .box-data-title{
+        line-height: 29px;
+      }
+        .sidebar-item{
+            overflow-x: hidden;
+        }
+        
+       .grid{
+           display: block!important;
+
+       }
+
+    }
