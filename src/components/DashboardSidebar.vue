@@ -197,6 +197,7 @@
     font-size: 16px;
     line-height: 19px;
     margin: 20px 0;
+    
 
     .sidebar-item__icon {
         margin-right: 24px;
@@ -206,4 +207,11 @@
         color: #A0A0A0;
     }
 }
+.sidebar-item:hover {
+        background-color: #2A36A4;
+        // turn contents into white with filter
+        .sidebar-item__icon, .sidebar-item__title {
+            filter: brightness(2.5);
+        }
+    }
 </style>

@@ -78,6 +78,10 @@ body{
 
 
     @media (max-width: 768px) {
+      .main-content-box{
+        width: 80%!important;
+        margin: 20px 0!important;
+      }
       .profile-options-item{
         margin-left: auto;
       }
@@ -85,10 +89,10 @@ body{
         margin: 4px 0;
       }
       .box-data-title{
-        line-height: 29px;
+        line-height: 29px!important;
       }
         .sidebar-item{
-            overflow-x: hidden;
+            overflow-x: hidden!important;
         }
         
        .grid{
