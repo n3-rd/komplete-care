@@ -1,5 +1,5 @@
 <script>
-import alertify from "alertifyjs";
+import swal from 'sweetalert';
 export default {
     data() {
         return {
@@ -82,14 +82,25 @@ export default {
                 redirect: "follow",
             };
 
-            fetch("https://testdrive.kompletecare.com/graphql", requestOptions)
-                .then((response) => response.text())
-                .then((result) => {
-                    alertify.success("Record created successfully");
-                })
-                .catch((error) => {
-                    alertify.error("Error creating record");
-                });
+            swal({
+                title: "Confirm",
+                text: "Are you sure you want to create this record?",
+                icon: "info",
+                buttons: true,
+                dangerMode: false,
+            }).then((willCreate) => {
+                if (willCreate) {
+                    fetch("https://testdrive.kompletecare.com/graphql", requestOptions)
+                        .then((response) => response.json())
+                        .then((result) => {
+                            swal("Created!", "Your record has been created.", "success");
+                            this.fetchData();
+                        })
+                        .catch((error) => alertify.error(error));
+                } else {
+                    swal("Cancelled", "Record not created", "error");
+                }
+            });
         },
     },
     mounted() {
@@ -213,7 +224,6 @@ export default {
 <style lang="scss" scoped>
 .page {
     background-color: #f5f5fb;
-    // min-height: 100vh;
 }
 
 .profile-options {

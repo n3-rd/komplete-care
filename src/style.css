@@ -16,6 +16,10 @@
 .text-primary {
   color: #2A36A4;
 }
+.swal-button{
+  background-color: #2A36A4!important;
+  color: #fff!important;
+}
 
 .opacity-7{
   opacity: 0.7;
