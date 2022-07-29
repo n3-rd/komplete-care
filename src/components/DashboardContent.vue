@@ -36,7 +36,7 @@ export default {
                         (investigation) => investigation.type.id === "2"
                     );
                 })
-                .catch((error) => alertify.error(error));
+                .catch((error) => swal("Error", "error occoured wile fetching data", "error"));
         },
         getCheckedBoxes(checkboxName) {
             var checkboxes = document.querySelectorAll(
@@ -96,7 +96,7 @@ export default {
                             swal("Created!", "Your record has been created.", "success");
                             this.fetchData();
                         })
-                        .catch((error) => alertify.error(error));
+                        .catch((error) => swal("Error", "error occoured wile creating record", "error"));
                 } else {
                     swal("Cancelled", "Record not created", "error");
                 }
