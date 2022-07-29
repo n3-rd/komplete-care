@@ -42,7 +42,6 @@ import DashboardContent from "../components/DashboardContent.vue";
         overflow-y: scroll;
     }
 
-    // mobile
     @media (max-width: 768px) {
         .sidebar {
             width: 20%;

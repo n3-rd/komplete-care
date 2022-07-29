@@ -1,13 +1,12 @@
 <script setup>
-
-import Dashboard from './pages/Dashboard.vue'
+import Main from './pages/Main.vue';
 
 
 </script>
 
 <template>
   <div>
-    <Dashboard></Dashboard>
+  <Main/>
  </div>
 </template>
 

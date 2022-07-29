@@ -12,7 +12,7 @@ export default {
         fetchData() {
             var myHeaders = new Headers();
             myHeaders.append("Content-Type", "application/json");
-            myHeaders.append("Authorization", `Bearer ${import.meta.env.VITE_AUTH}`);
+            myHeaders.append("Authorization", `Bearer ${sessionStorage.getItem('token')}`);
 
             var graphql = JSON.stringify({
                 query: "{investigations { id title type {id title } } }",
@@ -94,7 +94,6 @@ export default {
                         .then((response) => response.json())
                         .then((result) => {
                             swal("Created!", "Your record has been created.", "success");
-                            this.fetchData();
                         })
                         .catch((error) => swal("Error", "error occoured wile creating record", "error"));
                 } else {
@@ -103,8 +102,18 @@ export default {
             });
         },
     },
+    beforeRouteEnter(to, from, next) {
+        next(function (vm) {
+            vm.fetchData();
+        });
+    },
     mounted() {
+     if(sessionStorage.getItem('token')){
         this.fetchData();
+     }
+else{
+      this.$router.push('/');
+}
     },
 };
 </script>
@@ -317,9 +326,6 @@ export default {
                 display: grid;
                 grid-template-columns: repeat(4, 1fr);
                 grid-gap: 10px;
-    // @media (max-width: 768px) {
-    //     display: block;
-    // }
             }
         }
 

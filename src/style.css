@@ -93,8 +93,12 @@ body{
       }
         .sidebar-item{
             overflow-x: hidden!important;
+          padding: 20px!important;
+
         }
-        
+        .sidebar-item__title{
+          display: none;
+        }
        .grid{
            display: block!important;
 

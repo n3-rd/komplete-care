@@ -209,7 +209,6 @@
 }
 .sidebar-item:hover {
         background-color: #2A36A4;
-        // turn contents into white with filter
         .sidebar-item__icon, .sidebar-item__title {
             filter: brightness(2.5);
         }
